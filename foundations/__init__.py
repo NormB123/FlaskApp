@@ -17,11 +17,11 @@ app = Flask(__name__)
 #__name__ is a variable that uses the name of the application running in Python
 
 CLIENT_ID = json.loads(
-	open('client_secrets.json', 'r').read())['web']['client_id']
+	open('/var/www/FlaskApp/FlaskApp/foundations/client_secrets.json', 'r').read())['web']['client_id']
 APPLICATION_NAME = "Restaurant Menu Application"
 
 #create database engine
-engine = create_engine('sqlite:///restaurantmenuwithusers.db')
+engine = create_engine('sqlite:////var/www/FlaskApp/FlaskApp/foundations/restaurantmenuwithusers.db')
 Base.metadata.bind = engine  #bind database engine
 
 DBSession = sessionmaker(bind=engine)
@@ -480,4 +480,4 @@ def createUser(login_session):
 if __name__ == '__main__':
 	app.secret_key = 'super_secret_key'
 	app.debug = True
-	app.run(host='0.0.0.0', port=5000)
+	app.run(host='0.0.0.0', port=80)
