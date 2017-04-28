@@ -73,7 +73,7 @@ class MenuItem(Base):
 
 #######  end configuration section - insert at end of file  ######
 
-engine = create_engine('sqlite:///restaurantmenuwithusers.db')  #remarked this out for heroku, then didn't use it('postgres://ozgpfjjccokjnc:c0d7be055c2266e33cae8911990dd9d1eea12016b2221cc99fbb1b093023e806@ec2-54-235-181-120.compute-1.amazonaws.com:5432/d6qvpsv07j1urk')
+engine = create_engine('sqlite:////var/www/FlaskApp/FlaskApp/foundations/restaurantmenuwithusers.db')  #remarked this out for heroku, then didn't use it('postgres://ozgpfjjccokjnc:c0d7be055c2266e33cae8911990dd9d1eea12016b2221cc99fbb1b093023e806@ec2-54-235-181-120.compute-1.amazonaws.com:5432/d6qvpsv07j1urk')
 # ('sqlite:///restaurantmenuwithusers.db')  #remarked this out for heroku, then didn't use it
 
 Base.metadata.create_all(engine)
