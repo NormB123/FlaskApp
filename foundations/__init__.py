@@ -45,7 +45,7 @@ def showLogin():
 	state = ''.join(random.choice(string.ascii_uppercase + string.digits) 
 		for x in xrange(32))
 	login_session['state'] = state
-	return render_template('login.html', STATE=state)
+	return render_template('/var/www/FlaskApp/FlaskApp/foundations/login.html', STATE=state)
 
 @app.route('/gconnect', methods=['POST'])
 def gconnect():
@@ -57,7 +57,7 @@ def gconnect():
 	code = request.data
 
 	try:                              # change auth code to credentials object
-		oauth_flow = flow_from_clientsecrets('client_secrets.json', scope='')
+		oauth_flow = flow_from_clientsecrets('/var/www/FlaskApp/FlaskApp/foundations/client_secrets.json', scope='')
 		oauth_flow.redirect_uri = 'postmessage'
 		credentials = oauth_flow.step2_exchange(code)
 
@@ -142,8 +142,8 @@ def fbconnect():
 	# print 'Got FB access token'
 	# print access_token
 
-	app_id = json.loads(open('fb_client_secrets.json', 'r').read())['web']['app_id']
-	app_secret = json.loads(open('fb_client_secrets.json', 'r').read())['web']['app_secret']
+	app_id = json.loads(open('/var/www/FlaskApp/FlaskApp/foundations/fb_client_secrets.json', 'r').read())['web']['app_id']
+	app_secret = json.loads(open('/var/www/FlaskApp/FlaskApp/foundations/fb_client_secrets.json', 'r').read())['web']['app_secret']
 	url = 'https://graph.facebook.com/oauth/access_token?grant_type=fb_exchange_token&client_id=%s&client_secret=%s&fb_exchange_token=%s' % (app_id, app_secret, access_token)
 	h = httplib2.Http()
 	result = h.request(url, 'GET')[1]
@@ -286,9 +286,9 @@ def restaurantMenuItemJSON(restaurant_id, menu_id):
 def showRestaurants():  #  This page will show all restaurants
 	restaurants = session.query(Restaurant).order_by(asc(Restaurant.name))
 	if 'username' not in login_session:
-		return render_template('publicrestaurants.html', restaurants=restaurants)
+		return render_template('/var/www/FlaskApp/FlaskApp/foundations/publicrestaurants.html', restaurants=restaurants)
 	else:
-		return render_template('restaurants.html', restaurants=restaurants) 
+		return render_template('/var/www/FlaskApp/FlaskApp/foundations/restaurants.html', restaurants=restaurants) 
 
 @app.route('/restaurant/new', methods=['GET', 'POST'])   #  new restaurant
 def newRestaurant():
@@ -305,7 +305,7 @@ def newRestaurant():
 		if 'username' not in login_session:
 			return redirect('/login')
 		else:
-			return render_template('newRestaurant.html')
+			return render_template('/var/www/FlaskApp/FlaskApp/foundations/newRestaurant.html')
 
 @app.route('/restaurant/<int:restaurant_id>/edit', methods=['GET', 'POST'])  #  edit restaurant
 def editRestaurant(restaurant_id):
@@ -328,7 +328,7 @@ def editRestaurant(restaurant_id):
 			if verifier(restaurant.user_id) == True:
 				return oops 
 			else:
-				return render_template('editRestaurant.html', restaurant=restaurant.name, restaurant_id=restaurant_id)
+				return render_template('/var/www/FlaskApp/FlaskApp/foundations/editRestaurant.html', restaurant=restaurant.name, restaurant_id=restaurant_id)
 
 
 @app.route('/restaurant/<int:restaurant_id>/delete', methods=['GET', 'POST']) #  delete restaurant
@@ -352,7 +352,7 @@ def deleteRestaurant(restaurant_id):
 		
 	else:
 		restaurant = session.query(Restaurant).filter_by(id=restaurant_id).one()
-		return render_template('deleteRestaurant.html', restaurant_id=restaurant_id, restaurant=restaurant.name)
+		return render_template('/var/www/FlaskApp/FlaskApp/foundations/deleteRestaurant.html', restaurant_id=restaurant_id, restaurant=restaurant.name)
 
 
 ####  Menu methods  ####
@@ -364,12 +364,12 @@ def restaurantMenu(restaurant_id):
 	creator = getUserInfo(restaurant.user_id)
 	items = session.query(MenuItem).filter_by(restaurant_id=restaurant.id).all()
 	if 'username' not in login_session or creator.id != login_session['user_id']:
-		return render_template('publicmenu.html', items=items, restaurant=restaurant, creator=creator)
+		return render_template('/var/www/FlaskApp/FlaskApp/foundations/publicmenu.html', items=items, restaurant=restaurant, creator=creator)
 	else:
 		if items == []:
-			return render_template('noMenu.html', restaurant=restaurant)
+			return render_template('/var/www/FlaskApp/FlaskApp/foundations/noMenu.html', restaurant=restaurant)
 		else:
-			return render_template('menu.html', restaurant=restaurant, items=items)
+			return render_template('/var/www/FlaskApp/FlaskApp/foundations/menu.html', restaurant=restaurant, items=items)
 
 @app.route('/restaurants/<int:restaurant_id>/new/', methods=['GET', 'POST'])  #create new menu items
 def newMenuItem(restaurant_id):
@@ -385,7 +385,7 @@ def newMenuItem(restaurant_id):
 		if 'username' not in login_session:
 			return redirect('/login')
 		else:
-			return render_template('newmenuitem.html', restaurant_id=restaurant_id, restaurant=restaurant.name)
+			return render_template('/var/www/FlaskApp/FlaskApp/foundations/newmenuitem.html', restaurant_id=restaurant_id, restaurant=restaurant.name)
 
 @app.route('/restaurants/<int:restaurant_id>/<int:menu_id>/edit/', methods=['GET', 'POST'])  #edit menu items
 def editMenuItem(restaurant_id, menu_id):
@@ -427,7 +427,7 @@ def editMenuItem(restaurant_id, menu_id):
 		else:
 			restaurant = session.query(Restaurant).filter_by(id=restaurant_id).one()
 			item = session.query(MenuItem).filter_by(id=menu_id).one()
-			return render_template('editmenuitem.html', restaurant_id=restaurant_id, menu_id=menu_id, 
+			return render_template('/var/www/FlaskApp/FlaskApp/foundations/editmenuitem.html', restaurant_id=restaurant_id, menu_id=menu_id, 
 				restaurant=restaurant.name, item_name=item.name, item_price=item.price, 
 				item_description=item.description, item_course=item.course)
 
@@ -454,7 +454,7 @@ def deleteMenuItem(restaurant_id, menu_id):
 			else:
 				restaurant = session.query(Restaurant).filter_by(id=restaurant_id).one()
 				item = session.query(MenuItem).filter_by(id=menu_id).one()
-				return render_template('deletemenuitem.html', restaurant_id=restaurant_id, menu_id=menu_id, \
+				return render_template('/var/www/FlaskApp/FlaskApp/foundations/deletemenuitem.html', restaurant_id=restaurant_id, menu_id=menu_id, \
 					restaurant=restaurant.name, item_name=item.name)
 
 														# User methods
