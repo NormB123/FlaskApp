@@ -17,7 +17,7 @@ app = Flask(__name__)
 #__name__ is a variable that uses the name of the application running in Python
 
 CLIENT_ID = json.loads(
-	open('/var/www/FlaskApp/FlaskApp/foundations/client_secrets.json', 'r').read())['web']['client_id']
+	open('client_secrets.json', 'r').read())['web']['client_id']
 APPLICATION_NAME = "Restaurant Menu Application"
 
 #create database engine
@@ -45,7 +45,7 @@ def showLogin():
 	state = ''.join(random.choice(string.ascii_uppercase + string.digits) 
 		for x in xrange(32))
 	login_session['state'] = state
-	return render_template('/var/www/FlaskApp/FlaskApp/foundations/login.html', STATE=state)
+	return render_template('login.html', STATE=state)
 
 @app.route('/gconnect', methods=['POST'])
 def gconnect():
