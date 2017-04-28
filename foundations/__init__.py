@@ -14,6 +14,7 @@ import json
 import requests
 
 app = Flask(__name__)
+app.secret_key = 'super_secret_key'  #moved secret key here from bottom to resolve error
 #__name__ is a variable that uses the name of the application running in Python
 
 CLIENT_ID = json.loads(
@@ -478,6 +479,6 @@ def createUser(login_session):
 	return user.id
 
 if __name__ == '__main__':
-	app.secret_key = 'super_secret_key'
+	#app.secret_key = 'super_secret_key'
 	app.debug = True
 	app.run(host='0.0.0.0', port=80)
