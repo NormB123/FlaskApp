@@ -21,7 +21,7 @@ CLIENT_ID = json.loads(
 APPLICATION_NAME = "Restaurant Menu Application"
 
 #create database engine
-engine = create_engine('sqlite:////var/www/FlaskApp/FlaskApp/foundations/restaurantmenuwithusers.db')
+engine = create_engine('sqlite:////var/www/FlaskApp/FlaskApp/foundations/restaurantmenuwithusers.db?check_same_thread=False')
 Base.metadata.bind = engine  #bind database engine
 
 DBSession = sessionmaker(bind=engine)
