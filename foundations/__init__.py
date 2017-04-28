@@ -286,7 +286,7 @@ def restaurantMenuItemJSON(restaurant_id, menu_id):
 def showRestaurants():  #  This page will show all restaurants
 	restaurants = session.query(Restaurant).order_by(asc(Restaurant.name))
 	if 'username' not in login_session:
-		return render_template('/var/www/FlaskApp/FlaskApp/foundations/publicrestaurants.html', restaurants=restaurants)
+		return render_template('publicrestaurants.html', restaurants=restaurants)
 	else:
 		return render_template('/var/www/FlaskApp/FlaskApp/foundations/restaurants.html', restaurants=restaurants) 
 
