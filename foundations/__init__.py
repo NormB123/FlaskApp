@@ -17,7 +17,7 @@ app = Flask(__name__)
 #__name__ is a variable that uses the name of the application running in Python
 
 CLIENT_ID = json.loads(
-	open('client_secrets.json', 'r').read())['web']['client_id']
+	open('/var/www/FlaskApp/FlaskApp/foundations/client_secrets.json', 'r').read())['web']['client_id']
 APPLICATION_NAME = "Restaurant Menu Application"
 
 #create database engine
