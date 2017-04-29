@@ -151,7 +151,9 @@ def fbconnect():
 
 	userinfo_url = "https://graph.facebook.com/v2.8/me"  #changed v2.2 to v2.8 to match login.html <-------------------------<<<
 
-	token = result.split("&")[0]  #strip expire tag from access_token
+	data = json.loads(result)
+	token = 'access_token=' + data['access_token']
+	#token = result.split("&")[0]  #strip expire tag from access_token
 
 	url = "https://graph.facebook.com/v2.2/me?%s&fields=name,id,email" % token
 	h = httplib2.Http()
